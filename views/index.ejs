@@ -1,0 +1,79 @@
+<% include layout/default %>
+<% buf = []; layout_default(buf, {}, function (buf) { %>
+<style>
+.wrapper {
+  margin: auto;
+  max-width: 600px;
+  border: solid 1px black;
+  padding: 1em;
+}
+.section {
+  margin: 1em 0em;
+}
+h1 {
+  padding: 0px;
+  margin: 0px;
+}
+
+pre {
+  border: solid 1px grey;
+  padding: 0.5em;
+  background-color: #eee;
+}
+</style>
+<form id="form" class="wrapper">
+<h1>swift playground</h1>
+<div class="section">
+filename:<br />
+<input type="text" name="filename" value="hello"/>
+<!-- /.section --></div>
+<div class="section">
+source:<br />
+<textarea rows="30" cols="70" name="source">
+var sum = 0
+
+var numbers = [ 20, 111, 37, 2 ]
+
+for number in numbers {
+  sum = sum + number
+}
+
+println(sum)
+</textarea>
+<!-- /.section --></div>
+<div class="section">
+result:<br />
+<pre id="result">
+(output here)
+</pre>
+<!-- /.section --></div>
+<div class="section">
+<input type="submit" value="run" />
+<!-- /.section --></div>
+<!-- /#wrapper --></form>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$(function () {
+    var $form = $('#form');
+    var $result = $('#result');
+  
+    $form.on('submit', function (e) {
+        e.preventDefault();
+        var filename = $form.find('[name="filename"]').val();
+        var source = $form.find('[name="source"]').val();
+
+        $.post('/run', {
+            filename: filename,
+            source: source
+        }, function (res) {
+            if (res.error) {
+                alert(res.error);
+                return;
+            }
+
+            var result = res.result;
+            $result.text(result);
+        })
+    });
+})
+</script><% }) %>

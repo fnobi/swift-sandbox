@@ -1,0 +1,17 @@
+{
+  "name": "swift-sandbox",
+  "description": "The best project ever.",
+  "version": "0.1.0",
+  "dependencies": {
+    "config": "~0.4.25",
+    "async": "~0.2.8",
+    "ejs": "~0.8.4",
+    "chai": "~1.6.1",
+    "express": "~3.3.4"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test mocha",
+    "prestart": "npm install",
+    "start": "NODE_ENV=production forever start --sourceDir . --pidFile swift-sandbox.fnobi.com.pid -l swift-sandbox.fnobi.com.log --append server.js"
+  }
+}
