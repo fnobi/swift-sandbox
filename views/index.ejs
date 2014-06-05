@@ -56,11 +56,20 @@ result:<br />
 $(function () {
     var $form = $('#form');
     var $result = $('#result');
+    var $filename = $form.find('[name="filename"]');
+    var $source = $form.find('[name="source"]');
+
+    var filenameCache = localStorage.getItem('filename');
+    if (filenameCache) {
+        $filename.val(filenameCache);
+    }
   
     $form.on('submit', function (e) {
         e.preventDefault();
-        var filename = $form.find('[name="filename"]').val();
-        var source = $form.find('[name="source"]').val();
+        var filename = $filename.val();
+        var source = $source.val();
+
+        localStorage.setItem('filename', filename);
 
         $.post('/run', {
             filename: filename,
